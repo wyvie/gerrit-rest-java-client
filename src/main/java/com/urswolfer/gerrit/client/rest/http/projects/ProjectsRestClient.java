@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gson.JsonElement;
 import com.urswolfer.gerrit.client.rest.http.GerritRestClient;
+import com.urswolfer.gerrit.client.rest.http.changes.FileInfoParser;
 import com.urswolfer.gerrit.client.rest.http.util.UrlUtils;
 
 import java.util.SortedMap;
@@ -36,13 +37,16 @@ public class ProjectsRestClient extends Projects.NotImplemented implements Proje
     private final GerritRestClient gerritRestClient;
     private final ProjectsParser projectsParser;
     private final BranchInfoParser branchInfoParser;
+    private final FileInfoParser fileInfoParser;
 
     public ProjectsRestClient(GerritRestClient gerritRestClient,
                               ProjectsParser projectsParser,
-                              BranchInfoParser branchInfoParser) {
+                              BranchInfoParser branchInfoParser,
+                              FileInfoParser fileInfoParser) {
         this.gerritRestClient = gerritRestClient;
         this.projectsParser = projectsParser;
         this.branchInfoParser = branchInfoParser;
+        this.fileInfoParser = fileInfoParser;
     }
 
     @Override
@@ -57,7 +61,7 @@ public class ProjectsRestClient extends Projects.NotImplemented implements Proje
 
     @Override
     public ProjectApi name(String name) throws RestApiException {
-        return new ProjectApiRestClient(gerritRestClient, projectsParser, branchInfoParser, name);
+        return new ProjectApiRestClient(gerritRestClient, projectsParser, branchInfoParser, fileInfoParser, name);
     }
 
     private SortedMap<String, ProjectInfo> list(ListRequest listParameter) throws RestApiException {

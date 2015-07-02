@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gson.JsonElement;
 import com.urswolfer.gerrit.client.rest.http.GerritRestClient;
+import com.urswolfer.gerrit.client.rest.http.changes.FileInfoParser;
 import org.easymock.EasyMock;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -91,6 +92,7 @@ public class ProjectsRestClientTest {
         private GerritRestClient gerritRestClient;
         private ProjectsParser projectsParser;
         private BranchInfoParser branchInfoParser;
+        private FileInfoParser fileInfoParser;
 
         public ProjectListTestCase withListParameter(TestListRequest listParameter) {
             this.listParameter = listParameter;
@@ -117,8 +119,14 @@ public class ProjectsRestClientTest {
             return new ProjectsRestClient(
                     setupGerritRestClient(),
                     setupProjectsParser(),
-                    setupBranchInfoParser()
+                    setupBranchInfoParser(),
+                    setupFileInfoParser()
             );
+        }
+
+        public FileInfoParser setupFileInfoParser() throws Exception {
+            fileInfoParser = EasyMock.createMock(FileInfoParser.class);
+            return fileInfoParser;
         }
 
         public GerritRestClient setupGerritRestClient() throws Exception {

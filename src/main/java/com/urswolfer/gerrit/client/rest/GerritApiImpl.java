@@ -72,7 +72,11 @@ public class GerritApiImpl extends GerritApi.NotImplemented implements GerritRes
     private final Supplier<ProjectsRestClient> projectsRestClient = Suppliers.memoize(new Supplier<ProjectsRestClient>() {
         @Override
         public ProjectsRestClient get() {
-            return new ProjectsRestClient(gerritRestClient, new ProjectsParser(gerritRestClient.getGson()), new BranchInfoParser(gerritRestClient.getGson()));
+            return new ProjectsRestClient(
+                gerritRestClient,
+                new ProjectsParser(gerritRestClient.getGson()),
+                new BranchInfoParser(gerritRestClient.getGson()),
+                new FileInfoParser(gerritRestClient.getGson()));
         }
     });
 

@@ -14,8 +14,12 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.gerrit.extensions.api.changes.FileApi;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+
+import java.util.Map;
 
 public interface BranchApi {
   BranchApi create(BranchInput in) throws RestApiException;
@@ -23,6 +27,10 @@ public interface BranchApi {
   BranchInfo get() throws RestApiException;
 
   void delete() throws RestApiException;
+
+  Map<String, FileInfo> files() throws RestApiException;
+
+  FileApi file(String path) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -41,6 +49,16 @@ public interface BranchApi {
 
     @Override
     public void delete() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, FileInfo> files() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public FileApi file(String path) throws RestApiException {
       throw new NotImplementedException();
     }
   }
